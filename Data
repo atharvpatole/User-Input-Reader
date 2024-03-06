@@ -1,0 +1,51 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Data {
+    public String firstName;
+    public String lastName;
+    public int postalCode;
+}
+
+public class InputReader {
+    public static void main(String[] args) {
+        ArrayList<Data> personList = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.print("Enter Input {first_name<tab>last_name<tab>zip_code} (or 'quit' to end): ");
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("quit")) {
+                break;
+            }
+
+            String[] parts = input.split("\t");
+            if (parts.length != 3) {
+                System.out.println("Invalid input format. Please enter first name, last name, and zip code separated by tabs.");
+                continue; // Skip to the next iteration
+            }
+
+            // Assuming valid input format
+            Data person = new Data();
+            person.firstName = parts[0];
+            person.lastName = parts[1];
+            try {
+                person.postalCode = Integer.parseInt(parts[2]);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid zip code. Please enter an integer value.");
+                continue;
+            }
+
+            personList.add(person);
+        }
+
+        scanner.close();
+
+        // Print the stored data
+        System.out.println("\nStored Data:");
+        for (Data person : personList) {
+            System.out.println(person.firstName + " " + person.lastName + " - " + person.postalCode);
+        }
+    }
+}
